@@ -1,0 +1,13 @@
+package com.example.gitmago;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class GitmagoApplicationTests {
+
+    @Test
+    void contextLoads() {
+    }
+
+}
