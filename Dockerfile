@@ -1,5 +1,5 @@
 FROM openjdk:21-jdk-slim
 WORKDIR /app
 COPY build/libs/*.jar app.jar
-EXPOSE 443
+EXPOSE 80
 ENTRYPOINT ["java", "-jar", "app.jar"]
