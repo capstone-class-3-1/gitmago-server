@@ -61,5 +61,5 @@ jobs:
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           service: ${{ env.ECS_SERVICE }}
-          cluster: ${{ env.ECS_CLUSTER }}
+          cluster: gitmagoCluster
           task-definition: ${{ steps.render-task.outputs.task-definition }}
