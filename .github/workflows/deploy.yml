@@ -12,7 +12,7 @@ jobs:
     env:
       AWS_REGION: ap-northeast-2
       ECR_REPOSITORY: gitmago
-      ECS_CLUSTER: gitmago-cluster
+      ECS_CLUSTER: gitmagoCluster
       ECS_SERVICE: gitmago-service
       TASK_DEFINITION: ecs-task-def.json
 
