@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      AWS_REGION: us-east-1
+      AWS_REGION: ap-northeast-2
       ECR_REPOSITORY: gitmago
       ECS_CLUSTER: gitmagoCluster
       ECS_SERVICE: gitmago-service
