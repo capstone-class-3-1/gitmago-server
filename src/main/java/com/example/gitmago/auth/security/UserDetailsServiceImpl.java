@@ -12,7 +12,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // TODO: 실제 DB에서 유저 조회하는 로직 추가
         if (!"testuser".equals(username)) {
             throw new UsernameNotFoundException("User not found: " + username);
         }

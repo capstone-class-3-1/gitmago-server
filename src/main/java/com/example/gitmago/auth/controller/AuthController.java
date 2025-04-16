@@ -20,7 +20,8 @@ public class AuthController {
         String username = request.get("username");
         String password = request.get("password");
         String confirmPassword = request.get("confirmPassword");
-        return ResponseEntity.ok(authService.registerUser(username, password, confirmPassword));
+        String school = request.get("school");
+        return ResponseEntity.ok(authService.registerUser(username, password, confirmPassword, school));
     }
 
     @PostMapping("/login")
