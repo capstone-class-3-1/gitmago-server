@@ -11,16 +11,22 @@ public class User {
     private String username;
     private String password;
     private String school;
+    private String email;
+    private boolean emailVerified = false;
 
     public User() {
-
-
     }
 
     public User(String username, String password, String school) {
         this.username = username;
         this.password = password;
         this.school = school;
+        this.email = email;
+        this.emailVerified = false;
+    }
+
+    public String getEmail(){
+        return email;
     }
 
     public String getId() {
@@ -34,7 +40,16 @@ public class User {
     public String getPassword() {
         return password;
     }
-     public String getSchool(){
+
+    public String getSchool() {
         return school;
-     }
+    }
+
+    public boolean isEmailVerified() {
+        return emailVerified;
+    }
+
+    public void setEmailVerified(boolean emailVerified) {
+        this.emailVerified = emailVerified;
+    }
 }
