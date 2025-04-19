@@ -9,6 +9,8 @@ build/
 src/main/resources/application.properties
 config/application.properties
 .env
+keystore.p12
+.keystore.p12
 
 ### STS ###
 .apt_generated
