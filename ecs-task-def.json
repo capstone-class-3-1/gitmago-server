@@ -11,8 +11,8 @@
       "image": "654654290061.dkr.ecr.ap-northeast-2.amazonaws.com/gitmago:latest",
       "portMappings": [
         {
-          "containerPort": 8080,
-          "hostPort": 8080
+          "containerPort": 443,
+          "hostPort": 443
         }
       ],
       "essential": true
