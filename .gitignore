@@ -9,6 +9,8 @@ build/
 src/main/resources/application.properties
 config/application.properties
 .env
+key.pem
+cert.pem
 
 ### STS ###
 .apt_generated
