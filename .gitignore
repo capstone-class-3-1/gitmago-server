@@ -11,7 +11,10 @@ config/application.properties
 .env
 keystore.p12
 .keystore.p12
-
+.key.pem
+key.pem
+cert.pem
+.cert.pem
 ### STS ###
 .apt_generated
 .classpath
