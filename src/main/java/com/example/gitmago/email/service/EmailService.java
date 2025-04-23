@@ -1,7 +1,7 @@
 package com.example.gitmago.email.service;
 
-import com.example.gitmago.auth.model.User;
-import com.example.gitmago.auth.repository.UserRepository;
+import com.example.gitmago.auth.model.Auth;
+import com.example.gitmago.auth.repository.AuthRepository;
 import com.example.gitmago.email.model.Email;
 import com.example.gitmago.email.repository.EmailVerificationRepository;
 import jakarta.mail.MessagingException;
@@ -20,7 +20,7 @@ public class EmailService {
 
     private final JavaMailSender javaMailSender;
     private final EmailVerificationRepository emailVerificationRepository;
-    private final UserRepository userRepository;
+    private final AuthRepository userRepository;
 
     private static final String senderEmail = "gitmago59@gmail.com";
 
@@ -63,7 +63,7 @@ public class EmailService {
                 emailVerificationRepository.save(ev);
 
 
-                Optional<User> userOptional = userRepository.findByEmail(email);
+                Optional<Auth> userOptional = userRepository.findByEmail(email);
                 userOptional.ifPresent(user -> {
                     user.setEmailVerified(true);
                     userRepository.save(user);
