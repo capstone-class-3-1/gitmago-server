@@ -21,7 +21,6 @@ public class Email{
     private String email;
     private int code;
 
-    @Indexed(expireAfterSeconds = 300) // 5분 후 자동 삭제
     private LocalDateTime expireAt;
 
     private boolean verified;

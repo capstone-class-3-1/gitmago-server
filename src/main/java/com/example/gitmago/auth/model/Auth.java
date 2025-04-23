@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "users")
-public class User {
+public class Auth {
 
     @Id
     private String id;
@@ -14,10 +14,10 @@ public class User {
     private String email;
     private boolean emailVerified = false;
 
-    public User() {
+    public Auth() {
     }
 
-    public User(String username, String password, String school) {
+    public Auth(String username, String password, String school) {
         this.username = username;
         this.password = password;
         this.school = school;
