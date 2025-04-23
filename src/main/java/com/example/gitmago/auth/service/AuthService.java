@@ -1,7 +1,7 @@
 package com.example.gitmago.auth.service;
 
-import com.example.gitmago.auth.model.User;
-import com.example.gitmago.auth.repository.UserRepository;
+import com.example.gitmago.auth.model.Auth;
+import com.example.gitmago.auth.repository.AuthRepository;
 import com.example.gitmago.auth.security.JwtUtil;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,11 +11,11 @@ import java.util.Optional;
 
 @Service
 public class AuthService {
-    private final UserRepository userRepository;
+    private final AuthRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
-    public AuthService(UserRepository userRepository, JwtUtil jwtUtil) {
+    public AuthService(AuthRepository userRepository, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.passwordEncoder = new BCryptPasswordEncoder();
         this.jwtUtil = jwtUtil;
@@ -43,17 +43,17 @@ public class AuthService {
         }
 
         String hashedPassword = passwordEncoder.encode(password);
-        userRepository.save(new User(username, hashedPassword, school));
+        userRepository.save(new Auth(username, hashedPassword, school));
         return "회원가입 성공";
     }
 
     public String loginUser(String username, String password) {
-        Optional<User> userOptional = userRepository.findByUsername(username);
+        Optional<Auth> userOptional = userRepository.findByUsername(username);
         if (userOptional.isEmpty()) {
             return "아이디가 존재하지 않습니다.";
         }
 
-        User user = userOptional.get();
+        Auth user = userOptional.get();
         if (!passwordEncoder.matches(password, user.getPassword())) {
             return "비밀번호가 틀렸습니다.";
         }
