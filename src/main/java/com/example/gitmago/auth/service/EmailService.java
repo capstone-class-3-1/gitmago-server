@@ -1,9 +1,9 @@
-package com.example.gitmago.email.service;
+package com.example.gitmago.auth.service;
 
 import com.example.gitmago.auth.model.Auth;
 import com.example.gitmago.auth.repository.AuthRepository;
 import com.example.gitmago.email.model.Email;
-import com.example.gitmago.email.repository.EmailVerificationRepository;
+import com.example.gitmago.auth.repository.EmailVerificationRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
