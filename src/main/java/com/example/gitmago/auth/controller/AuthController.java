@@ -9,6 +9,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+
     private final AuthService authService;
 
     public AuthController(AuthService authService) {
@@ -17,18 +18,17 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody Map<String, String> request) {
-        String username = request.get("username");
-        String password = request.get("password");
-        String confirmPassword = request.get("confirmPassword");
-        String school = request.get("school");
-        return ResponseEntity.ok(authService.registerUser(username, password, confirmPassword, school));
+        return ResponseEntity.ok(authService.registerUser(
+                request.get("username"),
+                request.get("password"),
+                request.get("confirmPassword"),
+                request.get("school"),
+                request.get("email")
+        ));
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Map<String, String> request) {
-        String username = request.get("username");
-        String password = request.get("password");
-        String token = authService.loginUser(username, password);
-        return ResponseEntity.ok(token);
+    @GetMapping("/hearth")
+    public ResponseEntity<String> healthCheck() {
+        return ResponseEntity.ok("OK");
     }
 }

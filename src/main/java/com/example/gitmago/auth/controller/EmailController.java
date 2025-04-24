@@ -1,6 +1,6 @@
-package com.example.gitmago.email.controller;
+package com.example.gitmago.auth.controller;
 
-import com.example.gitmago.email.service.EmailService;
+import com.example.gitmago.auth.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +34,6 @@ public class EmailController {
     public ResponseEntity<?> verifyCode(@RequestBody Map<String, String> request) {
         String email = request.get("email");
         int code = Integer.parseInt(request.get("code"));
-
         boolean verified = emailService.verifyCode(email, code);
         return ResponseEntity.ok(Map.of("verified", verified));
     }
