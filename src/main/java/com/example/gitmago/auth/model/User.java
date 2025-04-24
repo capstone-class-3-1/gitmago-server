@@ -1,4 +1,4 @@
-package com.example.gitmago.email.model;
+package com.example.gitmago.auth.model;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -7,21 +7,30 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
-@Document(collection = "email_verification")
+@Document(collection = "users")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Email{
+public class User {
 
     @Id
     private String id;
 
+    @Indexed(unique = true)
+    private String username;
+
+    private String password;
+
+    private String school;
+
+    @Indexed(unique = true)
     private String email;
-    private int code;
+
+    private boolean emailVerified;
+
+    private int verificationCode;
 
     private LocalDateTime expireAt;
-
-    private boolean verified;
 }
