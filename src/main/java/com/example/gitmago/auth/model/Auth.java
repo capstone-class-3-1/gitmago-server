@@ -49,7 +49,7 @@ public class Auth {
         return emailVerified;
     }
 
-    public void setEmailVerified(boolean emailVerified) {
+    public void isEmailVerified(boolean emailVerified) {
         this.emailVerified = emailVerified;
     }
 }
