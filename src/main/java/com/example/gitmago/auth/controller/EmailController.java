@@ -34,7 +34,6 @@ public class EmailController {
     public ResponseEntity<?> verifyCode(@RequestBody Map<String, String> request) {
         String email = request.get("email");
         int code = Integer.parseInt(request.get("code"));
-
         boolean verified = emailService.verifyCode(email, code);
         return ResponseEntity.ok(Map.of("verified", verified));
     }
