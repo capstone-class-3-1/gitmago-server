@@ -27,14 +27,6 @@ public class AuthController {
         ));
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Map<String, String> request) {
-        return ResponseEntity.ok(authService.loginUser(
-                request.get("username"),
-                request.get("password")
-        ));
-    }
-
     @GetMapping("/hearth")
     public ResponseEntity<String> healthCheck() {
         return ResponseEntity.ok("OK");
