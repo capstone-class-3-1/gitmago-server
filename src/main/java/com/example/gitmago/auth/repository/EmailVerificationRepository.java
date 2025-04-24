@@ -1,6 +1,5 @@
-package com.example.gitmago.email.repository;
+package com.example.gitmago.auth.repository;
 
-import com.example.gitmago.email.model.Email;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;
