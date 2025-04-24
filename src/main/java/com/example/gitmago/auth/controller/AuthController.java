@@ -2,6 +2,7 @@ package com.example.gitmago.auth.controller;
 
 import com.example.gitmago.auth.service.AuthService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -30,5 +31,10 @@ public class AuthController {
         String password = request.get("password");
         String token = authService.loginUser(username, password);
         return ResponseEntity.ok(token);
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<String> healthCheck() {
+        return ResponseEntity.ok("OK");
     }
 }
