@@ -35,7 +35,7 @@ public class AuthController {
         ));
     }
 
-    @GetMapping("/")
+    @GetMapping("/hearth")
     public ResponseEntity<String> healthCheck() {
         return ResponseEntity.ok("OK");
     }
