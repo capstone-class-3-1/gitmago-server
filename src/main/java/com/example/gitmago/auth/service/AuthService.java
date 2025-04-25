@@ -3,14 +3,14 @@ package com.example.gitmago.auth.service;
 import com.example.gitmago.auth.model.User;
 import com.example.gitmago.auth.repository.UserRepository;
 import com.example.gitmago.auth.security.JwtUtil;
+import com.example.gitmago.auth.exception.ConflictException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
 
 @Service
 @RequiredArgsConstructor
@@ -20,11 +20,23 @@ public class AuthService {
     private final JwtUtil jwtUtil;
 
     public String registerUser(String username, String password, String confirmPassword, String school, String email) {
-        if (!password.equals(confirmPassword)) return "비밀번호가 일치하지 않습니다.";
-        if (userRepository.findByUsername(username).isPresent()) return "이미 사용 중인 아이디입니다.";
+        if (!password.equals(confirmPassword)) {
+            throw new ConflictException("비밀번호가 일치하지 않습니다.");
+        }
+        if (userRepository.findByUsername(username).isPresent()) {
+            throw new ConflictException("이미 사용 중인 아이디입니다.");
+        }
+        if (userRepository.findByEmail(email).isPresent()) {
+            throw new ConflictException("이미 등록된 이메일입니다.");
+        }
 
-        List<String> validSchools = List.of("경북소프트웨어마이스터고", "대덕소프트웨어마이스터고", "대구소프트웨어마이스터고", "광주소프트웨어마이스터고", "부산소프트웨어마이스터고");
-        if (!validSchools.contains(school)) return "올바른 학교를 선택해주세요.";
+        List<String> validSchools = List.of(
+                "경북소프트웨어마이스터고", "대덕소프트웨어마이스터고",
+                "대구소프트웨어마이스터고", "광주소프트웨어마이스터고", "부산소프트웨어마이스터고"
+        );
+        if (!validSchools.contains(school)) {
+            throw new ConflictException("올바른 학교를 선택해주세요.");
+        }
 
         String hashedPassword = passwordEncoder.encode(password);
 
@@ -50,19 +62,25 @@ public class AuthService {
         return jwtUtil.generateToken(username);
     }
 
+    public boolean isUsernameTaken(String username) {
+        return userRepository.findByUsername(username).isPresent();
+    }
+
+    public boolean isEmailTaken(String email) {
+        return userRepository.findByEmail(email).isPresent();
+    }
+
     public void verifyEmail(String email) {
-        Optional<User> optional = userRepository.findByEmail(email);
-        optional.ifPresent(user -> {
+        userRepository.findByEmail(email).ifPresent(user -> {
             user.setEmailVerified(true);
             userRepository.save(user);
         });
     }
 
     public void setVerificationCode(String email, int code) {
-        Optional<User> optional = userRepository.findByEmail(email);
-        optional.ifPresent(user -> {
+        userRepository.findByEmail(email).ifPresent(user -> {
             user.setVerificationCode(code);
-            user.setExpireAt(java.time.LocalDateTime.now().plusMinutes(5));
+            user.setExpireAt(LocalDateTime.now().plusMinutes(5));
             user.setEmailVerified(false);
             userRepository.save(user);
         });
