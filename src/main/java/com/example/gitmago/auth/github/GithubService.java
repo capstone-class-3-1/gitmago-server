@@ -4,7 +4,7 @@ import com.example.gitmago.auth.model.User;
 import com.example.gitmago.auth.repository.UserRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -24,9 +24,10 @@ public class GithubService {
 
     private final UserRepository userRepository;
 
-    public String processGithubOAuth(String code) throws  Exception{
+    public String processGithubOAuth(String code) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
 
+        // 액세스 토큰 요청
         String tokenUrl = "https://github.com/login/oauth/access_token";
         HttpHeaders tokenHeaders = new HttpHeaders();
         tokenHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -44,8 +45,9 @@ public class GithubService {
 
         String accessToken = tokenResponse.getBody().get("access_token").asText();
 
+        // 사용자 정보 요청
         HttpHeaders userHeaders = new HttpHeaders();
-        userHeaders.setBasicAuth(accessToken);
+        userHeaders.setBearerAuth(accessToken);
         HttpEntity<Void> userRequest = new HttpEntity<>(userHeaders);
 
         ResponseEntity<JsonNode> userResponse = restTemplate.exchange(
@@ -56,11 +58,11 @@ public class GithubService {
         String githubUsername = userData.get("login").asText();
         String githubId = userData.get("id").asText();
         String githubAvatar = userData.get("avatar_url").asText();
-        String githubEmail = userData.get("email").asText();
+        String githubEmail = userData.get("email").asText(null);
 
         Optional<User> optionalUser = userRepository.findByGithubId(githubId);
 
-        User user = optionalUser.orElseGet(()-> User.builder()
+        User user = optionalUser.orElseGet(() -> User.builder()
                 .githubId(githubId)
                 .githubUsername(githubUsername)
                 .githubEmail(githubEmail)
@@ -75,9 +77,5 @@ public class GithubService {
         userRepository.save(user);
 
         return githubUsername + "님 로그인 성공!";
-
-
-
-
     }
 }
