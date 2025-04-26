@@ -1,8 +1,6 @@
 package com.example.gitmago.auth.controller;
 
-import com.example.gitmago.auth.model.User;
 import com.example.gitmago.auth.repository.UserRepository;
-import com.example.gitmago.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
