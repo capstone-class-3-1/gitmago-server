@@ -9,9 +9,9 @@ build/
 src/main/resources/application.properties
 config/application.properties
 .env
-keystore.p12
 cert.pem
 key.pem
+src/main/resources/keystore.p12
 
 
 ### STS ###
