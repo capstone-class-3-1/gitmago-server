@@ -33,4 +33,12 @@ public class User {
     private int verificationCode;
 
     private LocalDateTime expireAt;
+
+    private String githubId;
+
+    private String githubUsername;
+
+    private String githubEmail;
+
+    private String githubAvatar;
 }
