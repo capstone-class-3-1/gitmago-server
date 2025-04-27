@@ -22,7 +22,7 @@ public class ProfileController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("profile")
+    @GetMapping("/profile")
     public ResponseEntity<?> getProfile(@AuthenticationPrincipal UserDetails userDetails) {
             String username = userDetails.getUsername();
             User user = userRepository.findByUsername(username).orElseThrow(()-> new RuntimeException("user not found"));
