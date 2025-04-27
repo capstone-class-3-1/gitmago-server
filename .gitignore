@@ -12,6 +12,8 @@ config/application.properties
 cert.pem
 key.pem
 src/main/resources/keystore.p12
+keystore.p12
+keystore.txt
 
 
 ### STS ###
