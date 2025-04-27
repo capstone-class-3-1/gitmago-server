@@ -31,11 +31,6 @@ public class AuthController {
         }
     }
 
-    @GetMapping("/hearth")
-    public ResponseEntity<String> healthCheck() {
-        return ResponseEntity.ok("OK");
-    }
-
     @GetMapping("/check-username")
     public ResponseEntity<String> checkUsername(@RequestParam String username) {
         boolean exists = authService.isUsernameTaken(username);
