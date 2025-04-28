@@ -27,7 +27,7 @@ public class GithubService {
     public String processGithubOAuth(String code) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
 
-        // 액세스 토큰 요청
+        // 1. GitHub 액세스 토큰 요청
         String tokenUrl = "https://github.com/login/oauth/access_token";
         HttpHeaders tokenHeaders = new HttpHeaders();
         tokenHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -45,7 +45,7 @@ public class GithubService {
 
         String accessToken = tokenResponse.getBody().get("access_token").asText();
 
-        // 사용자 정보 요청
+        // 2. GitHub 사용자 정보 요청
         HttpHeaders userHeaders = new HttpHeaders();
         userHeaders.setBearerAuth(accessToken);
         HttpEntity<Void> userRequest = new HttpEntity<>(userHeaders);
@@ -58,21 +58,39 @@ public class GithubService {
         String githubUsername = userData.get("login").asText();
         String githubId = userData.get("id").asText();
         String githubAvatar = userData.get("avatar_url").asText();
-        String githubEmail = userData.get("email").asText(null);
+        String githubEmail = userData.hasNonNull("email") ? userData.get("email").asText() : null;
 
+        // 3. 기존 회원 찾기
         Optional<User> optionalUser = userRepository.findByGithubId(githubId);
 
-        User user = optionalUser.orElseGet(() -> User.builder()
-                .githubId(githubId)
-                .githubUsername(githubUsername)
-                .githubEmail(githubEmail)
-                .githubAvatar(githubAvatar)
-                .build()
-        );
+        if (optionalUser.isEmpty() && githubEmail != null && !githubEmail.isBlank()) {
+            optionalUser = userRepository.findByEmail(githubEmail);
+        }
 
-        user.setGithubUsername(githubUsername);
-        user.setGithubEmail(githubEmail);
-        user.setGithubAvatar(githubAvatar);
+        User user;
+        if (optionalUser.isPresent()) {
+            // 4. 기존 유저 있으면 GitHub 정보 업데이트
+            user = optionalUser.get();
+
+            if (user.getGithubId() == null) {
+                user.setGithubId(githubId);
+            }
+            user.setGithubUsername(githubUsername);
+            user.setGithubAvatar(githubAvatar);
+            if (user.getGithubEmail() == null && githubEmail != null) {
+                user.setGithubEmail(githubEmail);
+            }
+
+        } else {
+            user = User.builder()
+                    .githubId(githubId)
+                    .githubUsername(githubUsername)
+                    .githubAvatar(githubAvatar)
+                    .githubEmail(githubEmail)
+                    .email(githubEmail)
+                    .emailVerified(true)
+                    .build();
+        }
 
         userRepository.save(user);
 
