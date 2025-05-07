@@ -1,7 +1,6 @@
-package com.example.gitmago.auth.security;
+package com.example.gitmago.jwt;
 
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 

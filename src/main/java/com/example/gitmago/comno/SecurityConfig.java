@@ -1,5 +1,6 @@
-package com.example.gitmago.auth.security;
+package com.example.gitmago.comno;
 
+import com.example.gitmago.jwt.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

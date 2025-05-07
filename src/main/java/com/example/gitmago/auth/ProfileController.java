@@ -1,7 +1,7 @@
-package com.example.gitmago.auth.controller;
+package com.example.gitmago.auth;
 
-import com.example.gitmago.auth.model.User;
-import com.example.gitmago.auth.repository.UserRepository;
+import com.example.gitmago.user.User;
+import com.example.gitmago.user.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;

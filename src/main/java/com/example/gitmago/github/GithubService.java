@@ -1,7 +1,7 @@
-package com.example.gitmago.auth.github;
+package com.example.gitmago.github;
 
-import com.example.gitmago.auth.model.User;
-import com.example.gitmago.auth.repository.UserRepository;
+import com.example.gitmago.user.User;
+import com.example.gitmago.user.UserRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,10 +24,11 @@ public class GithubService {
 
     private final UserRepository userRepository;
 
+
     public String processGithubOAuth(String code) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
 
-        // 액세스 토큰 요청
+        // 액세스 토큰 요청 (사용자 계정인지 인식하는 단계)
         String tokenUrl = "https://github.com/login/oauth/access_token";
         HttpHeaders tokenHeaders = new HttpHeaders();
         tokenHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -45,7 +46,7 @@ public class GithubService {
 
         String accessToken = tokenResponse.getBody().get("access_token").asText();
 
-        // 사용자 정보 요청
+        // 사용자 정보 요청 DB에 저장할 사용자 정보들을 github를 통해서 가지고옴
         HttpHeaders userHeaders = new HttpHeaders();
         userHeaders.setBearerAuth(accessToken);
         HttpEntity<Void> userRequest = new HttpEntity<>(userHeaders);
@@ -74,7 +75,7 @@ public class GithubService {
         user.setGithubEmail(githubEmail);
         user.setGithubAvatar(githubAvatar);
 
-        userRepository.save(user);
+        userRepository.save(user);//userRepository
 
         return githubUsername + "님 로그인 성공!";
     }

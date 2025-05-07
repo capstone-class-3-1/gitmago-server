@@ -1,4 +1,4 @@
-package com.example.gitmago.auth.controller;
+package com.example.gitmago;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
