@@ -1,5 +1,6 @@
-package com.example.gitmago.auth.service;
+package com.example.gitmago.auth;
 
+import com.example.gitmago.user.UserService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,7 @@ import java.util.Random;
 public class EmailService {
 
     private final JavaMailSender javaMailSender;
-    private final AuthService authService;
+    private final UserService authService;
 
     private static final String senderEmail = "gitmago59@gmail.com";
 

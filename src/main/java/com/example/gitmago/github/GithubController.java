@@ -1,4 +1,4 @@
-package com.example.gitmago.auth.github;
+package com.example.gitmago.github;
 
 
 import jakarta.servlet.http.HttpServletResponse;

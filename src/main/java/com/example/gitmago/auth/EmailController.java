@@ -1,6 +1,5 @@
-package com.example.gitmago.auth.controller;
+package com.example.gitmago.auth;
 
-import com.example.gitmago.auth.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
