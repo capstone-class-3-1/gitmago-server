@@ -13,7 +13,7 @@ jobs:
       AWS_REGION: us-east-1
       ECR_REPOSITORY: gitmago
       ECS_CLUSTER: gitmagoCluster
-      ECS_SERVICE: gitmago_service
+      ECS_SERVICE: gitmago-service
       TASK_DEFINITION: ecs-task-def.json
 
     steps:
