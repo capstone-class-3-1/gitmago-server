@@ -5,6 +5,10 @@ import com.example.gitmago.user.UserRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -16,6 +20,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class GithubService {
 
+    private final MongoTemplate mongoTemplate;
     @Value("${github.client-id}")
     private String clientId;
 
@@ -63,20 +68,26 @@ public class GithubService {
 
         Optional<User> optionalUser = userRepository.findByGithubId(githubId);
 
-        User user = optionalUser.orElseGet(() -> User.builder()
-                .githubId(githubId)
-                .githubUsername(githubUsername)
-                .githubEmail(githubEmail)
-                .githubAvatar(githubAvatar)
-                .build()
-        );
+        if (optionalUser.isPresent()) {
+            Query query = new Query(Criteria.where("githubId").is(githubId));
+            Update update = new Update()
+                    .set("githubUsername", githubUsername)
+                    .set("githubEmail", githubEmail)
+                    .set("githubAvatar", githubAvatar);
 
-        user.setGithubUsername(githubUsername);
-        user.setGithubEmail(githubEmail);
-        user.setGithubAvatar(githubAvatar);
+            mongoTemplate.updateFirst(query, update, User.class);
+        } else {
+            User user = User.builder()
+                    .githubId(githubId)
+                    .githubUsername(githubUsername)
+                    .githubEmail(githubEmail)
+                    .githubAvatar(githubAvatar)
+                    .emailVerified(false)
+                    .build();
 
-        userRepository.save(user);//userRepository
+            userRepository.save(user);
+        }
 
-        return githubUsername + "님 로그인 성공!";
+        return githubUsername + "계정 아이디";
     }
 }
