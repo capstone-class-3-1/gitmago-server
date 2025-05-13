@@ -1,4 +1,4 @@
-package com.example.gitmago.auth.security;
+package com.example.gitmago.comno;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
