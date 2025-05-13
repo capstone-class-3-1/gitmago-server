@@ -1,4 +1,4 @@
-package com.example.gitmago.auth.model;
+package com.example.gitmago.user;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;

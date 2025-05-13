@@ -1,7 +1,6 @@
-package com.example.gitmago.auth.controller;
+package com.example.gitmago.user;
 
-import com.example.gitmago.auth.exception.ConflictException;
-import com.example.gitmago.auth.service.AuthService;
+import com.example.gitmago.comno.ConflictException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +10,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-public class AuthController {
+public class UserController {
 
-    private final AuthService authService;
+    private final UserService authService;
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody Map<String, String> request) {

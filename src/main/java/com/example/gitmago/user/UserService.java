@@ -1,9 +1,7 @@
-package com.example.gitmago.auth.service;
+package com.example.gitmago.user;
 
-import com.example.gitmago.auth.model.User;
-import com.example.gitmago.auth.repository.UserRepository;
-import com.example.gitmago.auth.security.JwtUtil;
-import com.example.gitmago.auth.exception.ConflictException;
+import com.example.gitmago.jwt.JwtUtil;
+import com.example.gitmago.comno.ConflictException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,7 +12,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService {
+public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
