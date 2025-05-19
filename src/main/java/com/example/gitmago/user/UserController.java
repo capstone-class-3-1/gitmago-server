@@ -29,24 +29,4 @@ public class UserController {
             return ResponseEntity.status(409).body(e.getMessage());
         }
     }
-
-    @GetMapping("/check-username")
-    public ResponseEntity<String> checkUsername(@RequestParam String username) {
-        boolean exists = authService.isUsernameTaken(username);
-        if (exists) {
-            return ResponseEntity.status(409).body("이미 사용 중인 아이디입니다.");
-        } else {
-            return ResponseEntity.ok("사용 가능한 아이디입니다.");
-        }
-    }
-
-    @GetMapping("/check-email")
-    public ResponseEntity<String> checkEmail(@RequestParam String email) {
-        boolean exists = authService.isEmailTaken(email);
-        if (exists) {
-            return ResponseEntity.status(409).body("이미 등록된 이메일입니다.");
-        } else {
-            return ResponseEntity.ok("사용 가능한 이메일입니다.");
-        }
-    }
 }
