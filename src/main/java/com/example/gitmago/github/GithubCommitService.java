@@ -38,7 +38,7 @@ public class GithubCommitService {
                 .path("totalContributions")
                 .asInt();
     }
-
+    //github 사용자 이름 가지고옴
     private String getGithubUsername(String githubAccessToken) {
         String query = """
         {
