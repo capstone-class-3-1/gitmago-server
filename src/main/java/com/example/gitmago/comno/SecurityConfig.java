@@ -33,8 +33,10 @@ public class SecurityConfig {
                 .cors(cors -> {}) // CORS 허용
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/**").permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // CORS preflight 허용
+                        .requestMatchers("/api/**").permitAll()            // 로그인/회원가입은 허용
+                        .requestMatchers("/api/profile").authenticated()        // 👈 프로필은 인증 필요
+                        .anyRequest().permitAll()                               // 그 외는 모두 허용
                 );
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

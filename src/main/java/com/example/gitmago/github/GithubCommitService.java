@@ -30,13 +30,18 @@ public class GithubCommitService {
                 JsonNode.class
         );
 
-        return response.getBody()
-                .path("data")
+        JsonNode body = response.getBody();
+        if (body == null || body.path("data").path("user").isMissingNode()) {
+            throw new RuntimeException("GitHub API 응답 오류: user 정보 없음");
+        }
+
+        return body.path("data")
                 .path("user")
                 .path("contributionsCollection")
                 .path("contributionCalendar")
                 .path("totalContributions")
                 .asInt();
+
     }
     //github 사용자 이름 가지고옴
     private String getGithubUsername(String githubAccessToken) {
@@ -62,10 +67,10 @@ public class GithubCommitService {
     }
 
     private String buildContributionQuery(String githubId) {
-        return String.format("""
-        {
-          "query": "query { user(login: \\"%s\\") { contributionsCollection { contributionCalendar { totalContributions } } } }"
-        }
-        """, githubId);
+        return """
+    {
+      "query": "query { user(login: \\"%s\\") { contributionsCollection { contributionCalendar { totalContributions } } } }"
+    }
+    """.formatted(githubId);
     }
 }
