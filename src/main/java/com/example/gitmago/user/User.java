@@ -1,11 +1,14 @@
 package com.example.gitmago.user;
 
+import com.example.gitmago.title.Title;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Document(collection = "users")
 @Getter
@@ -41,4 +44,7 @@ public class User {
     private String githubEmail;
 
     private String githubAvatar;
+
+    private List<Title> titles = new ArrayList<>(); //획득한 칭호
+    private Title equippedTitle; //지금 착용한(?) 칭호
 }
