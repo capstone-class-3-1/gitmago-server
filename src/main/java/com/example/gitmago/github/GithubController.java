@@ -14,11 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class GithubController {
     private final GithubService githubService;
+    private final GithubCommitService githubCommitService;
 
     @GetMapping("/callback")
     public ResponseEntity<String> githubCallback(@RequestParam String code, HttpServletResponse response) {
         try{
             String result = githubService.processGithubOAuth(code);
+            String token = githubService.processGithubOAuth(code);
+            githubCommitService.updateCommitInfoAndGrantTitles(token);
             return ResponseEntity.ok(result);
         }catch(Exception e){
             return ResponseEntity.internalServerError().body("GitHub 인증실패 :" +e.getMessage());
