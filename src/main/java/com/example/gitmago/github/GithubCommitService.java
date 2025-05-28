@@ -1,6 +1,6 @@
 package com.example.gitmago.github;
 
-import com.example.gitmago.title.TitleService;
+import com.example.gitmago.title.TitleCommitService;
 import com.example.gitmago.user.User;
 import com.example.gitmago.user.UserRepository;
 import com.example.gitmago.jwt.JwtUtil;
@@ -16,7 +16,7 @@ public class GithubCommitService {
 
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
-    private final TitleService titleService;
+    private final TitleCommitService titleService;
 
     private final RestTemplate restTemplate = new RestTemplate();
 

@@ -13,7 +13,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class TitleController {
 
-    private final TitleService titleService;
+    private final TitleCommitService titleService;
 
     @GetMapping("/my")
     public ResponseEntity<?> getMyTitles(@AuthenticationPrincipal UserDetails userDetails) {

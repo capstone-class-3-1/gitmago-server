@@ -7,11 +7,11 @@ import com.example.gitmago.user.User;
 import java.util.List;
 
 @Service
-public class TitleService {
+public class TitleCommitService {
 
     private final UserRepository userRepository;
 
-    public TitleService(UserRepository userRepository) {
+    public TitleCommitService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -58,4 +58,6 @@ public class TitleService {
         else if (count >= 100) grantTitleIfNotExists(user, "커밋 유망주", 2);
         else if (count >= 10) grantTitleIfNotExists(user, "커밋 스타터", 1);
     }
+
+
 }
