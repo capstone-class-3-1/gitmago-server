@@ -18,5 +18,7 @@ public class Title {
     private boolean obtained; //획득여부
     private LocalDateTime obtainedAt; //언제 획득했는지
 
+    private TitleType type;
+
 }
 
