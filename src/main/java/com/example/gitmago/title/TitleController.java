@@ -1,5 +1,8 @@
 package com.example.gitmago.title;
 
+import com.example.gitmago.user.User;
+import com.example.gitmago.user.UserRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,6 +17,7 @@ import java.util.Map;
 public class TitleController {
 
     private final TitleCommitService titleService;
+    private final UserRepository userRepository;
 
     @GetMapping("/my")
     public ResponseEntity<?> getMyTitles(@AuthenticationPrincipal UserDetails userDetails) {
@@ -26,5 +30,18 @@ public class TitleController {
         titleService.equipTitle(userDetails.getUsername(), body.get("name"));
         return ResponseEntity.ok("칭호 착용 완료");
     }
+
+    @PostMapping("/grant")
+    public ResponseEntity<?> grantTitle(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestBody TitleDTO request
+    ) {
+        User user = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow();
+
+        titleService.grantTitleIfNotExists(user, request.getTitleName(), request.getLevel(), request.getType());
+        return ResponseEntity.ok(Map.of("message", "칭호 부여 완료"));
+    }
+
 }
 
