@@ -62,7 +62,7 @@ public class TitleCommitService {
     public void grantCommitTitleByCount(User user) {
         int count = user.getPublicCommitCount();
 
-        if (count >= 1000) grantTitleIfNotExists(user, "너는 찐 개발자다.", 5, TitleType.COMMIT);
+        if (count >= 1000) grantTitleIfNotExists(user, "찐 개발자.", 5, TitleType.COMMIT);
         else if (count >= 500) grantTitleIfNotExists(user, "개발자의 자질이 보인다", 4, TitleType.COMMIT);
         else if (count >= 300) grantTitleIfNotExists(user, "300번째 커밋이네", 3,TitleType.COMMIT);
         else if (count >= 100) grantTitleIfNotExists(user, "100번 찍어 안넘어가는 커밋없다", 2,TitleType.COMMIT);
