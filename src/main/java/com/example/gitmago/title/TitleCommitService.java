@@ -4,6 +4,7 @@ import com.example.gitmago.user.UserRepository;
 import org.springframework.stereotype.Service;
 import com.example.gitmago.user.User;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -36,14 +37,23 @@ public class TitleCommitService {
     }
 
     // 칭호 부여
-    public void grantTitleIfNotExists(User user, String titleName, int level) {
+    public void grantTitleIfNotExists(User user, String titleName, int level, TitleType type) {
         boolean alreadyHas = user.getTitles().stream()
                 .anyMatch(t -> t.getName().equals(titleName));
 
         if (!alreadyHas) {
-            user.getTitles().add(new Title(titleName, level));
+            Title title = new Title();
+            title.setName(titleName);
+            title.setLevel(level);
+            title.setType(type);
+            title.setObtained(true);
+            title.setObtainedAt(LocalDateTime.now());
+            title.setImageUrl("/images/title/" + type.name().toLowerCase() + "_" + level + ".png");
+
+            user.getTitles().add(title);
+
             if (user.getEquippedTitle() == null) {
-                user.setEquippedTitle(new Title(titleName, level));
+                user.setEquippedTitle(title);
             }
             userRepository.save(user);
         }
@@ -52,11 +62,11 @@ public class TitleCommitService {
     public void grantCommitTitleByCount(User user) {
         int count = user.getPublicCommitCount();
 
-        if (count >= 1000) grantTitleIfNotExists(user, "너는 찐 개발자다.", 5);
-        else if (count >= 500) grantTitleIfNotExists(user, "개발자의 자질이 보인다", 4);
-        else if (count >= 300) grantTitleIfNotExists(user, "300번째 커밋이네", 3);
-        else if (count >= 100) grantTitleIfNotExists(user, "100번 찍어 안넘어가는 커밋없다", 2);
-        else if (count >= 10) grantTitleIfNotExists(user, "이제 무르 익었네요.", 1);
+        if (count >= 1000) grantTitleIfNotExists(user, "너는 찐 개발자다.", 5, TitleType.COMMIT);
+        else if (count >= 500) grantTitleIfNotExists(user, "개발자의 자질이 보인다", 4, TitleType.COMMIT);
+        else if (count >= 300) grantTitleIfNotExists(user, "300번째 커밋이네", 3,TitleType.COMMIT);
+        else if (count >= 100) grantTitleIfNotExists(user, "100번 찍어 안넘어가는 커밋없다", 2,TitleType.COMMIT);
+        else if (count >= 10) grantTitleIfNotExists(user, "이제 무르 익었네요.", 1,TitleType.COMMIT);
     }
 
 
