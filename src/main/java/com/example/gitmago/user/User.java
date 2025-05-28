@@ -47,4 +47,6 @@ public class User {
 
     private List<Title> titles = new ArrayList<>(); //획득한 칭호
     private Title equippedTitle; //지금 착용한(?) 칭호
+
+    private int publicCommitCount;
 }

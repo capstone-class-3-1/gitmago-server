@@ -48,4 +48,14 @@ public class TitleService {
             userRepository.save(user);
         }
     }
+
+    public void grantCommitTitleByCount(User user) {
+        int count = user.getPublicCommitCount();
+
+        if (count >= 1000) grantTitleIfNotExists(user, "커밋 레전드", 5);
+        else if (count >= 500) grantTitleIfNotExists(user, "커밋 챔피언", 4);
+        else if (count >= 300) grantTitleIfNotExists(user, "커밋 마스터", 3);
+        else if (count >= 100) grantTitleIfNotExists(user, "커밋 유망주", 2);
+        else if (count >= 10) grantTitleIfNotExists(user, "커밋 스타터", 1);
+    }
 }

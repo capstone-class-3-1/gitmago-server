@@ -12,7 +12,6 @@ import lombok.Setter;
 public class Title {
     private String name;
     private int level;
-    private String imageUrl;
-    private boolean obtained;
+
 }
 

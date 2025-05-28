@@ -1,26 +1,33 @@
 package com.example.gitmago.github;
 
+import com.example.gitmago.title.TitleService;
+import com.example.gitmago.user.User;
+import com.example.gitmago.user.UserRepository;
+import com.example.gitmago.jwt.JwtUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Map;
-
 @Service
 @RequiredArgsConstructor
 public class GithubCommitService {
 
+    private final UserRepository userRepository;
+    private final JwtUtil jwtUtil;
+    private final TitleService titleService;
+
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public int getPublicCommitCount(String githubAccessToken) {
-        String githubId = getGithubUsername(githubAccessToken);
-        String query = buildContributionQuery(githubId);
+    // 유저의 public 커밋 수 조회
+    public int getPublicCommitCount(String githubUsername) {
+        String query = buildContributionQuery(githubUsername);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(githubAccessToken);
         headers.setContentType(MediaType.APPLICATION_JSON);
+
+        headers.setBearerAuth("ghp_...");
 
         HttpEntity<String> request = new HttpEntity<>(query, headers);
         ResponseEntity<JsonNode> response = restTemplate.exchange(
@@ -41,9 +48,23 @@ public class GithubCommitService {
                 .path("contributionCalendar")
                 .path("totalContributions")
                 .asInt();
-
     }
-    //github 사용자 이름 가지고옴
+
+    // 로그인한 사용자 기준으로 커밋 수 업데이트 + 칭호 부여
+    public User updateCommitInfoAndGrantTitles(String token) {
+        String username = jwtUtil.extractUsername(token);
+        User user = userRepository.findByUsername(username).orElseThrow();
+
+        int commitCount = getPublicCommitCount(user.getGithubUsername());
+        user.setPublicCommitCount(commitCount);
+
+        // 커밋 수 기준 칭호 부여
+        titleService.grantCommitTitleByCount(user);
+
+        return userRepository.save(user);
+    }
+
+    // 사용자 login 조회용 GraphQL
     private String getGithubUsername(String githubAccessToken) {
         String query = """
         {
@@ -66,11 +87,12 @@ public class GithubCommitService {
         return response.getBody().path("data").path("viewer").path("login").asText();
     }
 
+    // 커밋 수 조회용 쿼리 생성
     private String buildContributionQuery(String githubId) {
         return """
-    {
-      "query": "query { user(login: \\"%s\\") { contributionsCollection { contributionCalendar { totalContributions } } } }"
-    }
-    """.formatted(githubId);
+        {
+          "query": "query { user(login: \\"%s\\") { contributionsCollection { contributionCalendar { totalContributions } } } }"
+        }
+        """.formatted(githubId);
     }
 }
