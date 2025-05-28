@@ -52,11 +52,11 @@ public class TitleCommitService {
     public void grantCommitTitleByCount(User user) {
         int count = user.getPublicCommitCount();
 
-        if (count >= 1000) grantTitleIfNotExists(user, "커밋 레전드", 5);
-        else if (count >= 500) grantTitleIfNotExists(user, "커밋 챔피언", 4);
-        else if (count >= 300) grantTitleIfNotExists(user, "커밋 마스터", 3);
-        else if (count >= 100) grantTitleIfNotExists(user, "커밋 유망주", 2);
-        else if (count >= 10) grantTitleIfNotExists(user, "커밋 스타터", 1);
+        if (count >= 1000) grantTitleIfNotExists(user, "너는 찐 개발자다.", 5);
+        else if (count >= 500) grantTitleIfNotExists(user, "개발자의 자질이 보인다", 4);
+        else if (count >= 300) grantTitleIfNotExists(user, "300번째 커밋이네", 3);
+        else if (count >= 100) grantTitleIfNotExists(user, "100번 찍어 안넘어가는 커밋없다", 2);
+        else if (count >= 10) grantTitleIfNotExists(user, "이제 무르 익었네요.", 1);
     }
 
 
