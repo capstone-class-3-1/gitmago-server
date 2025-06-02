@@ -10,6 +10,8 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class GithubCommitService {
@@ -22,7 +24,8 @@ public class GithubCommitService {
 
     // 유저의 public 커밋 수 조회
     public int getPublicCommitCount(String githubUsername) {
-        String query = buildContributionQuery(githubUsername);
+        User user = userRepository.findByUsername(githubUsername).orElseThrow();
+        String query = buildContributionQuery(user.getGithubUsername(), user.getExpireAt());
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -87,12 +90,13 @@ public class GithubCommitService {
         return response.getBody().path("data").path("viewer").path("login").asText();
     }
 
-    // 커밋 수 조회용 쿼리 생성
-    private String buildContributionQuery(String githubId) {
+    // 가입 이후 부터 커밋수를 가지고와서 확인 하는 함수
+    private String buildContributionQuery(String githubId, LocalDateTime joinDate) {
+        String joinDateStr = joinDate.toString();
         return """
         {
-          "query": "query { user(login: \\"%s\\") { contributionsCollection { contributionCalendar { totalContributions } } } }"
+          "query": "query { user(login: \\"%s\\") { contributionsCollection(from : \\"%s\\") { contributionCalendar { totalContributions } } } }"
         }
-        """.formatted(githubId);
+        """.formatted(githubId, joinDateStr);
     }
 }

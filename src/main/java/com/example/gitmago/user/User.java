@@ -35,6 +35,7 @@ public class User {
 
     private int verificationCode;
 
+
     private LocalDateTime expireAt; //가입 날짜
 
     private String githubId;
