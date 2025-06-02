@@ -99,4 +99,42 @@ public class GithubCommitService {
         }
         """.formatted(githubId, joinDateStr);
     }
+
+    public int getCommitCountSince(String githubUsername, LocalDateTime fromDate) {
+        String fromDateIso = fromDate.toString();
+
+        String query = """
+    {
+      "query": "query {
+        user(login: \\"%s\\") {
+          contributionsCollection(from: \\"%s\\") {
+            contributionCalendar {
+              totalContributions
+            }
+          }
+        }
+      }"
+    }
+    """.formatted(githubUsername, fromDateIso);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth("your-github-access-token");
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<String> request = new HttpEntity<>(query, headers);
+        ResponseEntity<JsonNode> response = restTemplate.exchange(
+                "https://api.github.com/graphql",
+                HttpMethod.POST,
+                request,
+                JsonNode.class
+        );
+
+        return response.getBody()
+                .path("data")
+                .path("user")
+                .path("contributionsCollection")
+                .path("contributionCalendar")
+                .path("totalContributions")
+                .asInt();
+    }
 }

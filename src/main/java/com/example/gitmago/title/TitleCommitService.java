@@ -60,7 +60,7 @@ public class TitleCommitService {
     }
 
     public void grantCommitTitleByCount(User user) {
-        LocalDateTime joinAt = user.getExpireAt();
+        LocalDateTime joinedAt = user.getExpireAt();
         int count = user.getPublicCommitCount();
 
 
