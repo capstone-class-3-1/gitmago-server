@@ -1,6 +1,8 @@
 package com.example.gitmago.title;
 
+import com.example.gitmago.github.GithubCommitService;
 import com.example.gitmago.user.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.example.gitmago.user.User;
 
@@ -8,13 +10,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class TitleCommitService {
-
     private final UserRepository userRepository;
-
-    public TitleCommitService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final GithubCommitService githubCommitService;
 
     // 획득한 칭호 조회
     public List<Title> getUserTitles(String username) {
