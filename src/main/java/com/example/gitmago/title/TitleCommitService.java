@@ -60,7 +60,9 @@ public class TitleCommitService {
     }
 
     public void grantCommitTitleByCount(User user) {
+        LocalDateTime joinAt = user.getExpireAt();
         int count = user.getPublicCommitCount();
+
 
         if (count >= 1000) grantTitleIfNotExists(user, "찐 개발자.", 5, TitleType.COMMIT);
         else if (count >= 500) grantTitleIfNotExists(user, "개발자의 자질이 보인다", 4, TitleType.COMMIT);
