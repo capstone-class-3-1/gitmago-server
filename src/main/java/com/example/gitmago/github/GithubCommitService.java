@@ -9,9 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
 import java.time.LocalDateTime;
 
+//커밋 조회 & 업데이트 TitleCommitService 랑 헷갈릴수 있음
 @Service
 @RequiredArgsConstructor
 public class GithubCommitService {

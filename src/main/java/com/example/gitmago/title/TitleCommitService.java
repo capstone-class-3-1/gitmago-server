@@ -9,6 +9,8 @@ import com.example.gitmago.user.User;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
+//칭호 부여만 담당 하고 커밋 갯수 조회는 GithubCommitService 에서 불러와야됨
 @Service
 @RequiredArgsConstructor
 public class TitleCommitService {
