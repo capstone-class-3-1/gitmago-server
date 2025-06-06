@@ -26,6 +26,7 @@ public class EmailController {
             response.put("success", false);
             response.put("error", e.getMessage());
         }
+
         return ResponseEntity.ok(response);
     }
 
