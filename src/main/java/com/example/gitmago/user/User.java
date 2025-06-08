@@ -44,6 +44,8 @@ public class User {
 
     private String githubEmail;
 
+    private String githubAccessToken;
+
     private String githubAvatar;
 
     private List<Title> titles = new ArrayList<>(); //획득한 칭호

@@ -83,6 +83,7 @@ public class GithubService {
                     .githubEmail(githubEmail)
                     .githubAvatar(githubAvatar)
                     .emailVerified(false)
+                    .githubAccessToken(accessToken)
                     .build();
 
             userRepository.save(user);

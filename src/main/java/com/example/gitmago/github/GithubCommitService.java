@@ -38,7 +38,7 @@ public class GithubCommitService {
         """.formatted(githubUsername, fromDate.toString());
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth("your-github-access-token"); // 🔑 개인 액세스 토큰
+        headers.setBearerAuth("your-github-access-token"); //  개인 액세스 토큰 하드 코딩이 되어있음
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<String> request = new HttpEntity<>(query, headers);
