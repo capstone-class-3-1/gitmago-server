@@ -22,7 +22,7 @@ public class GithubCommitService {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public int getCommitCountSince(String githubUsername, LocalDateTime fromDate) {
+    public int getCommitCountSince(String githubUsername, LocalDateTime fromDate, String githubToken) {
         String query = """
             {
               "query": "query {
@@ -38,7 +38,7 @@ public class GithubCommitService {
         """.formatted(githubUsername, fromDate.toString());
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth("your-github-access-token"); //  개인 액세스 토큰 하드 코딩이 되어있음
+        headers.setBearerAuth(githubToken);
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<String> request = new HttpEntity<>(query, headers);
@@ -63,7 +63,7 @@ public class GithubCommitService {
         String username = jwtUtil.extractUsername(token);
         User user = userRepository.findByUsername(username).orElseThrow();
 
-        int commitCount = getCommitCountSince(user.getGithubUsername(), user.getExpireAt());
+        int commitCount = getCommitCountSince(user.getGithubUsername(), user.getExpireAt(),user.getGithubAccessToken());
 
         //커밋 수만 전달하고, 내부에서 로직 처리하도록
         titleService.grantCommitTitleByCount(user, commitCount);
