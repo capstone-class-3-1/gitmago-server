@@ -14,7 +14,8 @@ key.pem
 src/main/resources/keystore.p12
 src/main/resources/keystore.p12
 keystore.txt
-
+25project-key.pem
+/25project-key.pem
 
 ### STS ###
 .apt_generated
