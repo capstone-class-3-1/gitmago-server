@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class GithubService {
+public class GithubService { //여기서 깃헙 에세스토큰을 콜백 및 정보 가지고 오기
 
     private final MongoTemplate mongoTemplate;
     @Value("${github.client-id}")
@@ -60,6 +60,7 @@ public class GithubService {
                 "https://api.github.com/user", HttpMethod.GET, userRequest, JsonNode.class
         );
 
+        //github 관련 사용자 정보를 가지고옴 깃헙프로필사진 + 아이디+이름+이메일 등
         JsonNode userData = userResponse.getBody();
         String githubUsername = userData.get("login").asText();
         String githubId = userData.get("id").asText();
@@ -73,7 +74,8 @@ public class GithubService {
             Update update = new Update()
                     .set("githubUsername", githubUsername)
                     .set("githubEmail", githubEmail)
-                    .set("githubAvatar", githubAvatar);
+                    .set("githubAvatar", githubAvatar)
+                    .set("githubAccessToken", accessToken);
 
             mongoTemplate.updateFirst(query, update, User.class);
         } else {
